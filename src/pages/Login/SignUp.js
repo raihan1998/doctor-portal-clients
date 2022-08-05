@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import Loading from '../Shared/Loading';
 import { Link } from 'react-router-dom';
 
-const Login = () => {
+const SignUp = () => {
     const [logInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
     const { register, formState: { errors }, handleSubmit } = useForm();
 
@@ -36,10 +36,30 @@ const Login = () => {
         <div className='flex mt-20 justify-center items-center'>
             <div className="card w-96 bg-base-100 shadow-2xl">
                 <div className="card-body">
-                    <h2 className="text-center text-2xl font-bold">Login</h2>
+                    <h2 className="text-center text-2xl font-bold">Sign Up</h2>
 
                     <form onSubmit={handleSubmit(onSubmit)}>
 
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text">Name</span>
+                            </label>
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="name"
+                                className="input input-bordered w-full max-w-xs"
+                                {...register("name", {
+                                    required: {
+                                        value: true,
+                                        message: 'name is required'
+                                    }
+                                })}
+                            />
+                            <label className="label">
+                                {errors.name?.type === 'required' && <span className="label-text-alt text-red-500">{errors.name.message}</span>}
+                            </label>
+                        </div>
                         <div className="form-control w-full max-w-xs">
                             <label className="label">
                                 <span className="label-text">Email</span>
@@ -71,7 +91,6 @@ const Login = () => {
                             </label>
                             <input
                                 type="password"
-                                name="password"
                                 placeholder="password"
                                 className="input input-bordered w-full max-w-xs"
                                 {...register("password", {
@@ -91,10 +110,10 @@ const Login = () => {
                             </label>
                         </div>
                         {signInError}
-                        <button value='login' className='btn w-full text-white'>Login</button>
+                        <button value='login' className='btn w-full text-white'>Sign Up</button>
                     </form>
 
-                    <p><small>New to Doctors Portal <Link className='text-primary' to='/signUp'>Create New Account</Link></small></p>
+                    <p><small>Already have an account? <Link className='text-primary' to='/login'>Please Login</Link></small></p>
                     <div className="divider">OR</div>
                     <button onClick={() => logInWithGoogle()} className="btn btn-outline">Continue with Google</button>
                 </div>
@@ -103,4 +122,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default SignUp;
